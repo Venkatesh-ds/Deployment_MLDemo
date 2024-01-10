@@ -82,7 +82,7 @@ jobs:
       - name: Run regression tests
         id: test
         run: |
-          python .github/workflows/stage_05_model_evaluation.py
+          python src/mlProject/pipeline/stage_05_model_evaluation.py
                   
   Continuous-Deployment:
     needs: test
