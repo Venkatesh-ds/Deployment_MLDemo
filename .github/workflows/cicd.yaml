@@ -38,9 +38,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq unzip
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
       # - name: Set up environment
       #   shell: setup.sh
 
@@ -79,6 +76,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
 
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        
       - name: Run regression tests
         id: test
         run: |
