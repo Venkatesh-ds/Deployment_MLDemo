@@ -80,7 +80,6 @@ jobs:
         
   Continuous-Deployment:
     needs: test
-    if: "steps.test.outputs.test > 0.5" 
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -99,6 +98,7 @@ jobs:
       
       
       - name: Pull latest images
+        if: "steps.test.outputs.test > 0.5" 
         run: |
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
