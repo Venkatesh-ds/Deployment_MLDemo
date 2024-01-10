@@ -41,8 +41,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Set up environment
-        shell: setup.sh
+      # - name: Set up environment
+      #   shell: setup.sh
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
