@@ -79,7 +79,7 @@ jobs:
 
         
   Continuous-Deployment:
-    needs: build-and-push-ecr-image
+    needs: test
     if: "steps.test.outputs.test > 0.5" 
     runs-on: self-hosted
     steps:
