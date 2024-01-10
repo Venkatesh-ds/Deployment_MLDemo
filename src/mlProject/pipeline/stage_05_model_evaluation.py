@@ -14,8 +14,10 @@ class ModelEvaluationTrainingPipeline:
         config = ConfigurationManager()
         model_evaluation_config = config.get_model_evaluation_config()
         model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
-        print("r2: ", model_evaluation_config.save_results())
-        return model_evaluation_config.save_results()
+        res = model_evaluation_config.save_results()
+        print("r2: ", res)
+        print(f"::set-output name=test::{res}")
+        return res
 
 
 
