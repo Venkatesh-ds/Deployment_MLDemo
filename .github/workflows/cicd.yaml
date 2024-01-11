@@ -84,7 +84,7 @@ jobs:
       run: python src/mlProject/pipeline/stage_05_model_evaluation.py
 
   Continuous-Deployment:
-    needs: test
+    needs: Continuous-Test
     runs-on: self-hosted
     steps:
       - name: Checkout
