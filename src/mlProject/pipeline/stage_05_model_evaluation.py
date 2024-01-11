@@ -15,11 +15,12 @@ class ModelEvaluationTrainingPipeline:
         model_evaluation_config = config.get_model_evaluation_config()
         model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
         res = model_evaluation_config.save_results()
-        print("r2: ", res)
-        print(f"::save-state name=test::{res}")
+        # print(f"::save-state name=test::{res}")8
         if res > 0.5:
+            print("res: ", res)
             return True
         else:
+            print("res: ", res)
             return False
 
 
