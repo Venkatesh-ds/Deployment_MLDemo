@@ -1,6 +1,7 @@
 from mlProject.config.configuration import ConfigurationManager
 from mlProject.components.model_evaluation import ModelEvaluation
 from mlProject import logger
+import sys
 
 
 STAGE_NAME = "Model evaluation stage"
@@ -16,12 +17,15 @@ class ModelEvaluationTrainingPipeline:
         model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
         res = model_evaluation_config.save_results()
         # print(f"::save-state name=test::{res}")8
-        if res > 0.1:
+        if res > 0.5:
             print("res: ", res)
-            exit()
+            sys.exit(1)
         else:
             print("res: ", res)
-            raise ValueError("new model r2 score is more")
+            exit()
+        return res
+            
+            # raise ValueError("new model r2 score is more")
 
 
 
