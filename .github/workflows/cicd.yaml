@@ -120,8 +120,8 @@ jobs:
         # if: ${{ steps.run_python.outputs.result}}
         # if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
-         echo ${{ steps.run }}
-         echo ${{ needs.run }}
+         echo ${{ steps.run_python }}
+         echo ${{ needs.run_python }}
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
       - name: Stop and remove container if running
