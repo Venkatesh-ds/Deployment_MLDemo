@@ -95,7 +95,7 @@ jobs:
        echo "Regression Test Result:" ${{ env.TEST_RESULT_ID }}
 
   Continuous-Deployment:
-    needs: run_python
+    needs: Continuous-Test
     runs-on: self-hosted
     steps:
       - name: Checkout
