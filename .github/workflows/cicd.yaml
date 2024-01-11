@@ -83,10 +83,11 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: Run regression tests
-      id: test
+      id: run_python
       run: |
-       python src/mlProject/pipeline/stage_05_model_evaluation.py
-       export TEST_RESULT_ID=$?
+       result = $(python src/mlProject/pipeline/stage_05_model_evaluation.py)
+       echo "Result from Python script: $result"
+       echo "::set-output name=python_output::$result"
 
     - name: Log Results
       run: |
@@ -94,7 +95,7 @@ jobs:
        echo "Regression Test Result:" ${{ env.TEST_RESULT_ID }}
 
   Continuous-Deployment:
-    needs: Continuous-Test
+    needs: run_python
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -112,7 +113,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: Pull latest images
-        if: ${{ env.TEST_RESULT_ID == 0 }}
+        if: ${{ needs.run_python.outputs.python_output }}
+        # if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
