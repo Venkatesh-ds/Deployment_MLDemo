@@ -117,7 +117,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: Pull latest images
-        if: ${{ needs.test.outputs.test_result == 0 }}
+        if: ${{ needs.test.outputs.test_result == '0' }}
         # if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
          echo ${{ needs.test.outputs.test_result }}
