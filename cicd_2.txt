@@ -67,9 +67,6 @@ jobs:
 
     needs: build-and-push-ecr-image
 
-    env:
-      TEST_RESULT_ID: "regression_test_result"
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -84,12 +81,7 @@ jobs:
 
     - name: Run regression tests
       id: test
-      run: |
-       python src/mlProject/pipeline/stage_05_model_evaluation.py
-       export TEST_RESULT_ID=$?
-
-    - name: Log Results
-      run: echo "Regression Test Result: $TEST_RESULT_ID"
+      run: python src/mlProject/pipeline/stage_05_model_evaluation.py
 
   Continuous-Deployment:
     needs: Continuous-Test
@@ -110,7 +102,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: Pull latest images
-        if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
