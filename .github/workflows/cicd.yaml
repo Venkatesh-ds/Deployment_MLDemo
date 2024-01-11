@@ -89,7 +89,9 @@ jobs:
        export TEST_RESULT_ID=$?
 
     - name: Log Results
-      run: echo "Regression Test Result:" ${{ TEST_RESULT_ID }}
+      run: |
+       echo "Test Result ID: $TEST_RESULT_ID"
+       echo "Regression Test Result:" ${{ env.TEST_RESULT_ID }}
 
   Continuous-Deployment:
     needs: Continuous-Test
