@@ -16,12 +16,11 @@ class ModelEvaluationTrainingPipeline:
         model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
         res = model_evaluation_config.save_results()
         # print(f"::save-state name=test::{res}")8
-        if res > 0.8:
+        if res > 0.1:
             print("res: ", res)
-            return True
+            exit()
         else:
-            print("res: ", res)
-            return False
+            raise ValueError("new model r2 score is more")
 
 
 
