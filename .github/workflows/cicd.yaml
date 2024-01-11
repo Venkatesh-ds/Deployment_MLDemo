@@ -67,6 +67,10 @@ jobs:
 
     needs: build-and-push-ecr-image
 
+    outputs:
+      id: test
+      test_result: ${{ steps.set_output.outputs.test_result }}
+
     env:
       TEST_RESULT_ID: "regression_test_result"
 
@@ -89,14 +93,10 @@ jobs:
       run: chmod +x src/mlProject/pipeline/stage_05_model_evaluation.py
 
     - name: Run regression tests
-      id: test
+      id: set_output
       run: |
        python src/mlProject/pipeline/stage_05_model_evaluation.py
-
-    - name: Log Results
-      run: |
-       echo "Test Result ID: $TEST_RESULT_ID"
-       echo "Regression Test Result:" ${{ env.TEST_RESULT_ID }}
+       echo "::set-output name=test_result::$?"
 
   Continuous-Deployment:
     needs: test
@@ -120,8 +120,7 @@ jobs:
         # if: ${{ steps.run_python.outputs.result}}
         # if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
-         echo ${{ steps.test.outputs.result }}
-         echo ${{ needs.test.outputs.result }}
+         echo ${{ needs.test.outputs.test_result }}
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
       - name: Stop and remove container if running
