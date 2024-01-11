@@ -19,10 +19,10 @@ class ModelEvaluationTrainingPipeline:
         # print(f"::save-state name=test::{res}")8
         if res > 0.1:
             print("res: ", res)
-            return sys.exit(1)
+            sys.exit(1)
+            pass
         else:
             print("res: ", res)
-            exit()
             return res
             
             # raise ValueError("new model r2 score is more")
