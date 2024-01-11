@@ -91,9 +91,7 @@ jobs:
     - name: Run regression tests
       id: run_python
       run: |
-       result = $(python src/mlProject/pipeline/stage_05_model_evaluation.py)
-       echo "Result from Python script: $result"
-       echo "::set-output name=python_output::$result"
+       python src/mlProject/pipeline/stage_05_model_evaluation.py
 
     - name: Log Results
       run: |
@@ -119,9 +117,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: Pull latest images
-        if: ${{ needs.run_python.outputs.python_output }}
+        if: ${{ needs.run_python.outputs.result == 'True'}}
         # if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
+         echo "python output: ${{ needs.run_python.outputs.result}}"
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
       - name: Stop and remove container if running
