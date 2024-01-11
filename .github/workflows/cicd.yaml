@@ -101,13 +101,17 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-      
-      
-      - name: Pull latest images
-        if: ${{ steps.test.outputs.test }} > 0.5
+
+    -   name: Pull latest images
         run: |      
-         echo "steps.test: "
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+    
+      
+      # - name: Pull latest images
+      #   if: ${{ steps.test.outputs.test }} > 0.5
+      #   run: |      
+      #    echo "steps.test: "
+      #    docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
       - name: Stop and remove container if running
         run: |
