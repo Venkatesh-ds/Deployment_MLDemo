@@ -16,7 +16,7 @@ class ModelEvaluationTrainingPipeline:
         model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
         res = model_evaluation_config.save_results()
         print("r2: ", res)
-        print(f"::set-output name=test::{res}")
+        print(f"::save-state name=test::{res}")
         return res
 
 
