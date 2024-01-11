@@ -62,7 +62,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-  Continuous-Test:
+  test:
     runs-on: ubuntu-latest
 
     needs: build-and-push-ecr-image
@@ -89,7 +89,7 @@ jobs:
       run: chmod +x src/mlProject/pipeline/stage_05_model_evaluation.py
 
     - name: Run regression tests
-      id: run_python
+      id: test
       run: |
        python src/mlProject/pipeline/stage_05_model_evaluation.py
 
@@ -99,7 +99,7 @@ jobs:
        echo "Regression Test Result:" ${{ env.TEST_RESULT_ID }}
 
   Continuous-Deployment:
-    needs: Continuous-Test
+    needs: test
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -120,8 +120,8 @@ jobs:
         # if: ${{ steps.run_python.outputs.result}}
         # if: ${{ env.TEST_RESULT_ID == 0 }}
         run: |
-         echo ${{ steps }}
-         echo ${{ needs }}
+         echo ${{ steps.test }}
+         echo ${{ needs.test }}
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
          
       - name: Stop and remove container if running
