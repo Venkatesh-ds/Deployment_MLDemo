@@ -1,5 +1,7 @@
 from mlProject.config.configuration import ConfigurationManager
 from mlProject.components.model_evaluation import ModelEvaluation
+from mlProject.constants import r2_threshold
+
 from mlProject import logger
 import sys
 
@@ -17,13 +19,14 @@ class ModelEvaluationTrainingPipeline:
         model_evaluation_config = ModelEvaluation(config=model_evaluation_config)
         res = model_evaluation_config.save_results()
         # print(f"::save-state name=test::{res}")8
-        if res > 0.1:
+        if res > r2_threshold:
+            print("res: ", res)
+            return res
+        else:
             print("res: ", res)
             sys.exit(1)
             pass
-        else:
-            print("res: ", res)
-            return res
+            
             
             # raise ValueError("new model r2 score is more")
 
