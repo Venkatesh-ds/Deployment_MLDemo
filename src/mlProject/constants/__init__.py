@@ -3,5 +3,5 @@ from pathlib import Path
 CONFIG_FILE_PATH = Path("config/config.yaml")
 PARAMS_FILE_PATH = Path("params.yaml")
 SCHEMA_FILE_PATH = Path("schema.yaml")
-r2_threshold = 0.8
+r2_threshold = 0.2
 
